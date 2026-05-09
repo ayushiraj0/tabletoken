@@ -31,20 +31,11 @@ io.on('connection', (socket) => {
     socket.join(`order_${orderId}`);
     console.log(`📦 Joined order room: order_${orderId}`);
   });
-  //Group room add karo
-  socket.on('join_group', (code) => {
-  socket.join(`group_${code}`);
-  console.log(`👥 Joined group room: group_${code}`);
- });
+
   // Restaurant joins their room
   socket.on('join_restaurant', (restaurantId) => {
     socket.join(`restaurant_${restaurantId}`);
     console.log(`🏪 Joined restaurant room: restaurant_${restaurantId}`);
-  });
-
-  // 
-  socket.on('join_group', (code) => {
-  socket.join(`group_${code}`);
   });
 
   socket.on('disconnect', () => {
@@ -66,8 +57,8 @@ app.use('/api/restaurants', require('./routes/restaurants'));
 app.use('/api/menu',        require('./routes/menu'));
 app.use('/api/orders',      require('./routes/orders'));
 app.use('/api/upload',      require('./routes/upload'));
-app.use('/api/group-orders', require('./routes/groupOrders'));
-app.use()
+const { router: pushRouter } = require('./routes/push');
+app.use('/api/push',        pushRouter);
 
 // Health check
 app.get('/api/health', (req, res) => {
